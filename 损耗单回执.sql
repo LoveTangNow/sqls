@@ -18,7 +18,7 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
    and t.num not in
        (select ll_move_ok.num from ll_move_ok where ll_move_ok.type = 3)
    and t.num not in
-       (select d.num from TDECINVDTL d where d.fpsn like '18%')
+       (select d.num from TDECINVDTL d where d.fpsn like '98%')
    and t.flstupdtime > sysdate - 20
  ORDER BY t.num
 
