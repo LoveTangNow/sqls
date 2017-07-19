@@ -10,7 +10,7 @@ create table LINVENTORYSNAPSHOT
   FQTYSTR VARCHAR2(8), -- 箱数
   FQTY    NUMBER(24),  -- 数量
   FQPC    NUMBER(24),  -- 包装件数
-  FTIME   DATE default sysdate,
+  FTIME   DATE default sysdate
 )
 tablespace HDAPP
   pctfree 10
