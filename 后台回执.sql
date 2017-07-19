@@ -1,4 +1,4 @@
----移库单后台回执
+--移库单后台回执
 select * from tmoveinv t where t.num in ('00011706000080');
 select * from tmoveinvdtl t where t.num in ('00011706000080');
 
