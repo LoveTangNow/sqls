@@ -159,7 +159,7 @@
 		i.bill_no=A.FSRCNUM and
 		 A.STAT=7000 and 
 		 A.FSEND=1 and
-		 A.FLSTUPDTIME>sysdate-7
+		 A.FLSTUPDTIME>sysdate-20
 		 and (select sum(TD.Fplanqty)from Talcntcdtl TD where TD.num = a.num) <![CDATA[<>]]> 0
 		 ORDER BY i.WMS_NUM DESC)
 		 WHERE rownum <![CDATA[<=]]> 10
@@ -199,7 +199,7 @@ select distinct i.bill_no, i.bill_type,i.erp_from,i.remark reason,i.store_id,i.s
 left join TVENDORRTN n on i.wms_num= n.frtnreqnum
 left join TVENDORRTNREQ req on req.num=n.frtnreqnum
  where  i.bill_type=2 and
-		 i.flag=1 and i.STATUS=0 and  n.stat=100 and req.stat=6500 and req.flstupdtime>sysdate-30  ORDER BY i.WMS_NUM
+		 i.flag=1 and i.STATUS=0 and  n.stat=100 and req.stat=6500 and req.flstupdtime>sysdate-7  ORDER BY i.WMS_NUM
 		)
 		 WHERE rownum <![CDATA[<=]]> 15
 	</select>
@@ -254,14 +254,15 @@ left join TVENDORRTNREQ req on req.num=n.frtnreqnum
 	<!-- TB  bill_type   溢余回执 -->
 	<select id="selectWMSTINCINV" resultMap="wdkChainBillNoticeResultTINCINV">
 		select *	from (
- SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
-   from TINCINV t, wms_taobao_bill_history b
-  where t.stat = 100
-    and b.type = 1
-    and t.num not in
-        (select ll_move_ok.num from ll_move_ok where ll_move_ok.type = 2)
-    and t.FLSTUPDTIME > sysdate - 20
-  ORDER BY t.num
+SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
+  from TINCINV t
+  left join tincinvdtl td on td.num = t.num
+ where t.stat = 100
+   and substr(td.fpsn, 1, 2) not in (98)
+   and t.num not in
+       (select ll_move_ok.num from ll_move_ok where ll_move_ok.type = 2)
+   and t.FLSTUPDTIME > sysdate - 20
+ ORDER BY t.num desc
 		)
 		 WHERE rownum <![CDATA[<=]]> 2000	
 	</select>
@@ -284,18 +285,15 @@ left join TVENDORRTNREQ req on req.num=n.frtnreqnum
 	
 	<!-- TB  bill_type   损耗回执 -->
 	<select id="selectWMSTDECINV" resultMap="wdkChainBillNoticeResultTINCINV">
-		  select *  from (
-SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
+ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
   from TDECINV t, TDECINVDTL d
  where t.stat = 100
    and t.num not in
        (select ll_move_ok.num from ll_move_ok where ll_move_ok.type = 3)
    and t.num not in
-       (select d.num from TDECINVDTL d where d.fpsn like '18%')
+       (select d.num from TDECINVDTL d where d.fpsn like '98%')
    and t.flstupdtime > sysdate - 20
- ORDER BY t.num
-		)
-		 WHERE rownum <![CDATA[<=]]> 2000		
+ ORDER BY t.num	
 	</select>
 
 	 <select id="selectWMSTDECINVDetail" resultMap="outStockDetailBoResultTINCINV" parameterClass="WdkChainBillNotice">
@@ -316,13 +314,15 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
 	<!-- TB  bill_type   移库单回执 -->
 	<select id="selectWMSTMOVEINV" resultMap="wdkChainBillNoticeResultTINCINV" parameterClass="java.lang.String">
     select *  from (
- select distinct tm.num  outer_bill_no, tm.flstupdtime  bill_date
+ select distinct tm.num outer_bill_no, tm.flstupdtime bill_date
   from tmoveinv tm
   left join tmoveinvdtl tmd on tm.num = tmd.num
- where ((tmd.ffrompsn like '2%' and tmd.fdestpsn like '9%') or
-       (tmd.ffrompsn like '91%' and tmd.fdestpsn like '92%') or
-       (tmd.ffrompsn like '9%' and tmd.fdestpsn like '2%') or
-       (tmd.ffrompsn like '92%' and tmd.fdestpsn like '91%'))
+ where ((tmd.ffrompsn like '11%' and tmd.fdestpsn like '93%') or
+       (tmd.ffrompsn like '11%' and tmd.fdestpsn like '94%') or
+       (tmd.ffrompsn like '93%' and tmd.fdestpsn like '94%') or
+       (tmd.ffrompsn like '93%' and tmd.fdestpsn like '11%') or
+       (tmd.ffrompsn like '94%' and tmd.fdestpsn like '11%') or
+       (tmd.ffrompsn like '94%' and tmd.fdestpsn like '93%'))
    and tm.num not in
        (select l.num
           from ll_move_ok l
@@ -333,7 +333,7 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
    and tm.stat = 100
  order by tm.flstupdtime
 		)
-		 WHERE rownum <![CDATA[<=]]> 1	
+		 WHERE rownum <![CDATA[<=]]> 2000	
 	</select>
 
 	 <select id="selectWMSTMOVEINVDetail" resultMap="outStockDetailBoResultTMOVEINV" parameterClass="TBOutStockDetailBo">
@@ -373,7 +373,7 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
      	o.stat=7000 and
 		i.WMS_NUM=o.NUM and
 		i.bill_no=o.FSRCNUM and
-         o.FLSTUPDTIME>sysdate-15
+         o.FLSTUPDTIME>sysdate-10
 
 		ORDER BY i.WMS_NUM
 		)
@@ -416,7 +416,7 @@ select distinct
 	</select>
 	
 	<select id="selectWMSStoreRtnntcDetail_pallet" resultMap="outStockDetailBoResult" parameterClass="WdkChainBillNotice">
- select distinct  
+select distinct  
        s.line,
       s.frealqty operateNumber,
         a.fcode SKUID,
@@ -436,13 +436,11 @@ select distinct
 	</select>
 
 
-
-
-	<typeAlias alias="BillBack"	type="com.taobao.checkmodel.BillBack" />
+		<typeAlias alias="BillBack"	type="com.taobao.checkmodel.BillBack" />
 	<!-- 记录已回执成功单据 -->
 	<insert id="insertBillBack" parameterClass="BillBack">
 		<![CDATA[
-		 INSERT INTO LL_MOVE_OK (NUM,TIME,TYPE,retRun) VALUES (#num#,SYSDATE,#type#,0)
+		 INSERT INTO LL_MOVE_OK (NUM,TIME,TYPE,return) VALUES (#num#,SYSDATE,#type#,0)
 		]]>                                    
 	</insert>
 
@@ -453,7 +451,7 @@ select distinct
 	</insert>
 
 	<update id="updateBillBack_ok" parameterClass="BillBack">
-		update ll_move_ok l set l.retRun = 1 where l.num = #num# and l.type = #type#
+		update ll_move_ok l set l.return = 1 where l.num = #num# and l.type = #type#
 	</update>
 	
 	<update id="updateBillBack_HM_ok" parameterClass="BillBack">
@@ -502,12 +500,12 @@ select distinct
                                          tbinarticles.farticle
                   where (tbinarticles.fbin like #managementCode# or
                         tbinarticles.fbin like #managementCodee#)
-                    and tbinarticles.fowner = '100081'
+                    and tbinarticles.fowner = '100161'
                     and tarticle.fcode = ta.fcode) as itemCount
   from tbinarticles tba
   left join tarticle ta on ta.fgid = tba.farticle
  where (tba.fbin like #managementCode# or tba.fbin like #managementCodee#)
-   and tba.fowner = '100081'
+   and tba.fowner = '100161'
  order by ta.fcode)
 	
     </select>
@@ -519,7 +517,7 @@ select distinct
   from tbinarticles t
   left join tarticle a on t.farticle = a.fgid
  where t.fbin like #ManagementCode#
-   and a.fowner = '100081'
+   and a.fowner = '100161'
  order by a.fcode;
 	</select>
 	
@@ -664,7 +662,7 @@ select count(tid.num) recordCount, count(distinct ti.num) totalCount
     	select num billnumber, time backtime, type type
   			from ll_move_ok l
  		where to_char(l.time, 'yyyy-mm-dd') = #backtime#
-   and l.retRun = 0
+   and l.return = 0
     </select>
     
     <select id="getGongyingshangTuihuodanDetail"   resultMap="BackModel" parameterClass="BackBill" >
@@ -731,7 +729,7 @@ select count(tid.num) recordCount, count(distinct ti.num) totalCount
     <select id="getPanyingdanDetail" resultMap="BackModel" parameterClass="BackBill">
     	select '-' billnumber,
                 d.num ournumber,
-                a.fcode sku,
+                a.fcode  sku,
                 d.fqty goodsnumber,
 				to_date(d.flot, 'yyyy-mm-dd') productiondate,
                 to_char(to_date(d.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
@@ -829,5 +827,9 @@ select count(tid.num) recordCount, count(distinct ti.num) totalCount
     <delete id="delete_StockSnapshpt"   parameterClass="ThreeStrings">
         delete from  LINVENTORYSNAPSHOT s where s.FOWNER = #string2# and s.ftype like #string1#
     </delete>
+	
+
+
+
 	
 </sqlMap>
