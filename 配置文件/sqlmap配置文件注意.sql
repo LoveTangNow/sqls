@@ -17,7 +17,7 @@
     ORDER BY t.num
 
 
---上海移库单
+--上海移库单回执
  select distinct tm.num  outer_bill_no, tm.flstupdtime  bill_date
   from tmoveinv tm
   left join tmoveinvdtl tmd on tm.num = tmd.num
@@ -35,7 +35,7 @@
 
 
 
- --北京移库单
+ --北京移库单回执
  select distinct tm.num outer_bill_no, tm.flstupdtime bill_date
   from tmoveinv tm
   left join tmoveinvdtl tmd on tm.num = tmd.num
