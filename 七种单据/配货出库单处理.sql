@@ -61,7 +61,7 @@ select distinct case
                 a.fcode skuId,
                 i.cargo_area,
                 d.FQTY operateNumber,
-                to_date(d.flot, 'yyyy-mm-dd') PRODUCTIONDATE,
+                to_date(d.flot, 'yyyy-mm-dd') PRODUCTIONDATE
   from TPICKUPDTLDTL d
   left join TPICKUPDTL p on (p.line = d.line and d.num = p.num)
   left join tarticle a on p.farticle = a.fgid
@@ -69,6 +69,6 @@ select distinct case
   left join wms_taobao_outinsalesitems i on i.bill_no = o.bill_no
  where p.falcntc = '00011707006081' --配货通知单号
    and i.bill_no = 'HSOHOMS170731056354' --来源单号
-   and a.fcode = '110300100070'; --商品
+   and a.fcode = '110300100070'--商品
 order by d.num, d.line
 

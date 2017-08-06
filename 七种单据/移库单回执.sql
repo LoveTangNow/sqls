@@ -1,4 +1,4 @@
---上海的移库单
+--上海的移库单  只选择特定的移动方式 （已部署）
 select distinct tm.num, tm.flstupdtime
   from tmoveinv tm
   left join tmoveinvdtl tmd on tm.num = tmd.num
@@ -19,7 +19,7 @@ select distinct tm.num, tm.flstupdtime
 
 
 
---北京的移库单
+--北京的移库单 只选择特定的移动方式 （已部署）
 select distinct tm.num, tm.flstupdtime
   from tmoveinv tm
   left join tmoveinvdtl tmd on tm.num = tmd.num
@@ -37,7 +37,7 @@ select distinct tm.num, tm.flstupdtime
  order by tm.flstupdtime;
 
 
---北京的损耗单
+--北京的损耗单  排除掉虚拟仓 98 的影响
  SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
   from TDECINV t
   left join Tdecinvdtl td on td.num = t.num

@@ -1,5 +1,5 @@
 
---损耗单列表拉取（上海，排除掉虚拟仓影响）
+--损耗单列表拉取（上海，排除掉虚拟仓18影响）
 SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
   from TDECINV t, TDECINVDTL d
  where t.stat = 100
@@ -11,7 +11,7 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
  ORDER BY t.num
 
 
---损耗单列表拉取（北京，排除掉虚拟仓影响）
+--损耗单列表拉取（北京，排除掉虚拟仓98影响）
  SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
   from TDECINV t, TDECINVDTL d
  where t.stat = 100
