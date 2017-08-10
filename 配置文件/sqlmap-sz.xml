@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="tbbill">
+	<typeAlias alias="OutInSalesBo"	type="com.taobao.tbvo.TBOutInSalesBo" />
+	<typeAlias alias="OutInSalesItemsBo"	type="com.taobao.tbvo.TBOutInSalesItemsBo" />
+	<typeAlias alias="PalletBo"	type="com.taobao.tbvo.TBPalletBo" />
+	<typeAlias alias="WdkChainBillNotice"	type="com.taobao.api.request.WdkChainBillNoticeRequest" />
+	<typeAlias alias="TBOutStockDetailBo"	type="com.taobao.tbvo.TBOutStockDetailBo" />
+	                                    
+	<typeAlias alias="TBJson"	type="com.taobao.tbvo.TBJson"/>
+	
+	<typeAlias alias="TBOutStockBO"	type="com.taobao.tbvo.TBOutStockBO" />
+	<typeAlias alias="TBOutAreaNumber"	type="com.taobao.tbvo.TBOutAreaNumber" />
+	<typeAlias alias="TBDomainOutStockDetailBO"	type="com.taobao.tbvo.TBDomainOutStockDetailBO" />
+	<typeAlias alias="TBBillHistory"	type="com.taobao.tbvo.TBBillHistory" />
+	
+	<resultMap id="wdkChainBillNoticeResult" class="WdkChainBillNotice">
+        <result property="billDate" column="BILL_DATE"/>
+        <result property="billNo" column="BILL_NO"/>   
+        <result property="billType" column="BILL_TYPE"/>
+        <result property="from" column="ERP_FROM"/> 
+        <result property="reason" column="REASON"/>
+        <result property="storeId" column="STORE_ID"/> 
+        <result property="suppliersNo" column="SUPPLIERS_NO"/>
+        <result property="outerBillNo" column="OUTER_BILL_NO"/> 
+    </resultMap>
+      
+    <resultMap id="outStockDetailBoResult" class="TBOutStockDetailBo">
+        <result property="operateNumber" column="OPERATENUMBER"/>
+        <result property="skuId" column="SKUID"/>
+        <result property="cargoArea" column="CARGO_AREA"/>
+        <result property="totalPrice" column="TOTALPRICE"/>
+        <result property="wmsProductionDate" column="PRODUCTIONDATE"/>
+        <result property="wmsOperatePiece" column="OPERATE_PIECE"/>
+    </resultMap>
+                   
+    <resultMap id="outStockDetailBoResultForAlcntc" class="TBOutStockDetailBo">
+        <result property="firstPalletCode" column="FPALLETCODE"/>
+        <result property="operateNumber" column="OPERATENUMBER"/>
+        <result property="skuId" column="SKUID"/>
+        <result property="cargoArea" column="CARGO_AREA"/>
+        <result property="totalPrice" column="TOTALPRICE"/>
+        <result property="wmsProductionDate" column="PRODUCTIONDATE"/>
+        <result property="wmsOperatePiece" column="OPERATE_PIECE"/>
+        <result property="secondPalletCode" column="FCHESTNUM"/>
+    </resultMap>
+    
+    <resultMap id="TBJsonResult" class="TBJson">
+        <result property="firstPalletCode" column="FPALLETCODE"/>
+        <result property="operateNumber" column="FREALQTY"/>  
+        <result property="productionDate" column="PRODUCTIONDATE"/>
+    </resultMap>
+    
+    
+    <resultMap id="wdkChainBillNoticeResultTINCINV" class="WdkChainBillNotice">
+        <result property="billDate" column="BILL_DATE"/>
+        <result property="outerBillNo" column="OUTER_BILL_NO"/> 
+    </resultMap>
+      
+    <resultMap id="outStockDetailBoResultTINCINV" class="TBOutStockDetailBo">
+        <result property="operateNumber" column="OPERATENUMBER"/>
+        <result property="skuId" column="SKUID"/>
+        <result property="cargoArea" column="CARGO_AREA"/>
+        <result property="totalPrice" column="TOTALPRICE"/>
+        <result property="wmsProductionDate" column="PRODUCTIONDATE"/>
+        <result property="opReason" column="REASON"/>
+    </resultMap>
+    
+     <resultMap id="outStockDetailBoResultTMOVEINV" class="TBOutStockDetailBo">
+        <result property="operateNumber" column="OPERATENUMBER"/>
+        <result property="skuId" column="SKUID"/>
+        <result property="outCargoArea" column="OUT_CARGO_AREA"/>
+        <result property="inCargoArea" column="IN_CARGO_AREA"/>
+        <result property="totalPrice" column="TOTALPRICE"/>
+        <result property="wmsProductionDate" column="PRODUCTIONDATE"/>
+    </resultMap>
+
+
+
+
+	    <typeAlias alias="ThreeStrings"	type="com.taobao.checkmodel.Strings3" />
+	<resultMap id="ThreeStrings" class="ThreeStrings">
+        <result property="string1" column="string1"  jdbcType="VARCHAR"/>
+        <result property="string2" column="string2"  jdbcType="VARCHAR"/>
+        <result property="string3" column="string3"  jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <typeAlias alias="FourStrings"	type="com.taobao.checkmodel.Strings4" />
+	<resultMap id="FourStrings" class="FourStrings">
+        <result property="string1" column="string1"  jdbcType="VARCHAR"/>
+        <result property="string2" column="string2"  jdbcType="VARCHAR"/>
+        <result property="string3" column="string3"  jdbcType="VARCHAR"/>
+        <result property="string4" column="string4"  jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <typeAlias alias="FiveStrings"	type="com.taobao.checkmodel.Strings5" />
+	<resultMap id="FiveStrings" class="FiveStrings">
+        <result property="string1" column="string1"  jdbcType="VARCHAR"/>
+        <result property="string2" column="string2"  jdbcType="VARCHAR"/>
+        <result property="string3" column="string3"  jdbcType="VARCHAR"/>
+        <result property="string4" column="string4"  jdbcType="VARCHAR"/>
+        <result property="string5" column="string5"  jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+
+
+	<!--  查询出所有的货品 编码 -->
+	<typeAlias alias="My_InventoryBatch"	type="com.taobao.checkmodel.My_InventoryBatch" />
+	<typeAlias alias="My_InventoryItem"	type="com.taobao.checkmodel.My_InventoryItem" />
+	<typeAlias alias="My_InventoryItemSub"	type="com.taobao.checkmodel.My_InventoryItemSub" />
+	<typeAlias alias="My_Inventory"		type="com.taobao.checkmodel.My_Inventory" />
+	
+	<resultMap id="My_Inventory" class="My_Inventory">
+        <result property="merchantCode" column="MERCHANTCODE"/>
+        <result property="dcCode" column="DCCODE"/>  
+        <result property="managementCode" column="MANAGEMENTCODE"/>
+        <result property="managementCodee" column="MANAGEMENTCODEE"/>
+        <result property="occurDate" column="OCCURDATE"/>
+        <result property="inventoryItems" column="INVENTORYIREMS"/>
+    </resultMap>
+	
+	<resultMap id="My_InventoryItem" class="My_InventoryItem">
+        <result property="itemCode" column="ITEMCODE"/>
+        <result property="itemCount" column="ITEMCOUNT"/>  
+        <result property="inventoryBatches" column="INVENTORYBATCHES"/>
+    </resultMap>
+
+	<resultMap id="My_InventoryItemSub" class="My_InventoryItemSub">
+        <result property="itemCode" column="ITEMCODE"/>
+        <result property="itemCount" column="ITEMCOUNT"/>  
+    </resultMap>
+
+	<resultMap id="My_InventoryBatch" class="My_InventoryBatch">
+        <result property="batchCount" column="BATCHCOUNT"/>
+        <result property="batchDate" column="BATCHDATE"/>  
+        <result property="batchNo" column="BATCHNO"/>
+    </resultMap>
+
+
+
+
+
+		<typeAlias alias="AllList_Parameters"		type="com.taobao.checkmodel.AllList_Parameters" />
+	<typeAlias alias="My_LedgerItem"		type="com.taobao.checkmodel.My_LedgerItem" />
+	<typeAlias alias="My_LedgerItemSub"		type="com.taobao.checkmodel.My_LedgerItemSub" />
+	
+	<resultMap id="AllList_Parameters" class="AllList_Parameters">
+        <result property="querytype" column="QUERYTYPE"/>
+        <result property="flag" column="FLAG"/>  
+        <result property="date" column="DATE"/>
+    </resultMap>
+    <resultMap id="My_LedgerItem" class="My_LedgerItem">
+        <result property="recordCount" column="RECORDCOUNT"/>
+        <result property="totalCount" column="TOTALCOUNT"/>  
+        <result property="type" column="TYPE"/>
+    </resultMap>
+    <resultMap id="My_LedgerItemSub" class="My_LedgerItemSub">
+        <result property="recordCount" column="RECORDCOUNT"/>
+        <result property="totalCount" column="TOTALCOUNT"/>  
+    </resultMap>
+
+
+
+
+
+		<typeAlias alias="BackModel"	type="com.taobao.checkmodel.BackModel" />
+	<resultMap id="BackModel" class="BackModel">
+        <result property="billnumber" column="BILLNUMBER"/>
+        <result property="ournumber" column="OURNUMBER"/>
+        <result property="sku" column="SKU"/>
+        <result property="goodsnumber" column="GOODSNUMBER"/>
+        <result property="productiondate" column="PRODUCTIONDATE"/>  
+        <result property="flot" column="FLOT"/>
+    </resultMap>
+    
+    <typeAlias alias="BackBill"	type="com.taobao.checkmodel.BackBill" />
+	<resultMap id="BackBill" class="BackBill">
+        <result property="billnumber" column="BILLNUMBER"/>
+        <result property="backtime" column="BACKTIME"/>
+        <result property="type" column="TYPE"/>
+    </resultMap>
+
+
+
+	<typeAlias alias="StoreReturnDetail"	type="com.taobao.model.storereturn.StoreReturnDetail" />
+	<resultMap id="StoreReturnDetail" class="StoreReturnDetail">
+        <result property="line"			column="line"			jdbcType="VARCHAR"/>
+		<result property="number"		column="anumber"		jdbcType="VARCHAR"/>
+		<result property="sku"			column="sku"			jdbcType="VARCHAR"/>
+		<result property="area"			column="area"			jdbcType="VARCHAR"/>
+        <result property="piece"		column="piece"			jdbcType="VARCHAR"/>
+        <result property="date"			column="adate"			jdbcType="DATE"/>
+		<result property="totolprice"	column="totolprice"		jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+
+    
+	<!-- 新增  OutInSalesBo-->
+	<insert id="insertOutInSalesBo" parameterClass="OutInSalesBo">
+		<![CDATA[
+		 insert into WMS_TAOBAO_OUTINSALES (ID,ARRIVAL_DATE,BILL_NO, BILL_TYPE,FLAG,EXPIRATION_DATE,ERP_FROM,IS_PALLET,REMARK,STORE_CONTACT_ADDRESS,STORE_CONTACT_NAME,STORE_CONTACT_PHONE,STORE_ID,STORE_NAME,SUPPLIER_CONTACT_ADDRESS,SUPPLIER_CONTACT_NAME,SUPPLIER_CONTACT_PHONE,SUPPLIER_NAME,SUPPLIERS_NO,STATUS,CREATE_TIME,UPDATE_TIME,WMS_NUM)
+		 values (SEQ_WMS_TAOBAO_BILL.nextval, #arrivalDate#,#billNo#, #billType#,#flag#, #expirationDate#,#from#,#isPallet#, #remark#,#storeContactAddress#,#storeContactName#,#storeContactPhone#,#storeId#,#storeName#,#supplierContactAddress#,#supplierContactName#,#supplierContactPhone#,#supplierName#,#suppliersNo#,0,sysdate,sysdate,#wmsNum#)
+		]]>                                    
+	</insert>
+
+	<!-- 新增  OutInSalesItemsBo-->
+	<insert id="insertOutInSalesItemsBo" parameterClass="OutInSalesItemsBo">
+		<![CDATA[
+		 insert into WMS_TAOBAO_OUTINSALESITEMS (ID,BAR_CODE,CARGO_AREA,OPERATE_NUMBER,PRICE,PURCHASE_NUMBER,PURCHASE_SPEC,PURCHASE_UNIT,REASON,REMARK,SKU_ID,STOCK_UNIT,TOTAL_PRICE,CREATE_TIME,UPDATE_TIME,BILL_NO,WMS_NUM)
+		 values (SEQ_WMS_TAOBAO_BILL.nextval, #barCode#,#cargoArea#,#operateNumber#,#price#,#purchaseNumber#,#purchaseSpec#,#purchaseUnit#,#reason#,#remark#,#skuId#,#stockUnit#,#totalPrice#,sysdate,sysdate,#billNo#,#wmsNum#)
+		]]>
+	</insert>
+	<!-- 新增  PalletBo-->
+	<insert id="insertPalletBo" parameterClass="PalletBo">
+		<![CDATA[
+		 insert into WMS_TAOBAO_PALLET (ID,FIRST_PALLET_CODE,OPERATE_NUMBER,ORIGINAL_SUPPLIER_NO,PRODUCTION_DATE,SECOND_PALLET_CODE,CREATE_TIME,UPDATE_TIME,BILL_NO)
+		 values (SEQ_WMS_TAOBAO_BILL.nextval, #firstPalletCode#,#operateNumber#,#originalSupplierNo#,#productionDate#,#secondPalletCode#,SYSDATE,SYSDATE,#billNo#)
+		]]>
+	</insert>
+
+
+	<!-- update  OutInSalesBo   -->
+	<update id="updateOutInSalesBo" parameterClass="WdkChainBillNotice">
+		update WMS_TAOBAO_OUTINSALES set STATUS=1,UPDATE_TIME=SYSDATE  where WMS_NUM=#outerBillNo#  and BILL_NO=#billNo#
+	
+	</update>
+
+
+
+	<!-- TB  bill_type  采购单通知：1, wms 订单回执  1,3 -->
+	<select id="selectWMSOrderReceipt" resultMap="wdkChainBillNoticeResult" parameterClass="OutInSalesBo">
+		select *	from (
+		select distinct i.bill_no, i.bill_type,i.erp_from,i.remark reason,i.store_id,i.suppliers_no,i.wms_num outer_bill_no,s.FLSTUPDTIME  bill_date from   WMS_TAOBAO_OUTINSALES i
+               left join TORD o on i.WMS_NUM=o.NUM 
+               left join TSTKIN s on o.num=s.fordnum 
+               WHERE
+        i.bill_type=#queryType# and
+        i.flag=#flag# and
+		i.status=0 and
+		i.WMS_NUM=o.NUM and
+		i.bill_no=o.FSRCNUM and
+		 o.num=s.fordnum and
+		 s.stat=100 and
+		 s.FORDNUM=i.WMS_NUM and
+		 s.FLSTUPDTIME>sysdate-14
+		ORDER BY i.WMS_NUM DESC
+		)
+		 WHERE rownum <![CDATA[<=]]> 15	
+	</select>
+	
+	 <select id="selectWMSOrderDetail" resultMap="outStockDetailBoResult" parameterClass="WdkChainBillNotice">
+ select distinct 
+        s.line,
+        s.fqty operateNumber,
+        a.fcode skuId,
+        i.cargo_area,
+        i.operate_piece,
+        s.fproducedate PRODUCTIONDATE,
+        a.fprice * s.fqty totalprice
+   from TSTKINdtl s
+  left join tarticle a on s.farticle=a.fgid
+   
+   left join wms_taobao_outinsales o on s.fordnum=o.wms_num
+   left  join wms_taobao_outinsalesitems i   on i.bill_no=o.bill_no
+   where  o.bill_type=#targetAppKey# and
+        o.flag=#topMixParams# and i.bill_no =#billNo# and s.fordnum=#outerBillNo# and i.wms_num=#outerBillNo#
+	</select>
+	
+
+<!--出库回执  查看7天内需要处理的回执 关联   拣货单 -->	
+	<select id="selectWMSAlcntcReceipt" resultMap="wdkChainBillNoticeResult" parameterClass="OutInSalesBo">	
+	    select *	from (select distinct i.bill_no, i.bill_type,i.erp_from,i.remark reason,i.store_id,i.suppliers_no,i.wms_num outer_bill_no,A.FLSTUPDTIME  bill_date from   WMS_TAOBAO_OUTINSALES i
+      left join TALCNTC A on i.WMS_NUM=A.NUM 
+                
+        WHERE
+        i.bill_type=#queryType# and
+		i.status=0 and i.flag=#flag# and
+		i.WMS_NUM=A.NUM and
+		i.bill_no=A.FSRCNUM and
+		 A.STAT=7000 and 
+		 A.FSEND=1 and
+		 A.FLSTUPDTIME>sysdate-20
+		 and (select sum(TD.Fplanqty)from Talcntcdtl TD where TD.num = a.num) <![CDATA[<>]]> 0
+		 ORDER BY i.WMS_NUM DESC)
+		 WHERE rownum <![CDATA[<=]]> 10
+	</select>
+
+   <!-- 出库明细 -->
+    <select id="selectWMSAlcntcDetail" resultMap="outStockDetailBoResultForAlcntc" parameterClass="WdkChainBillNotice">
+  
+ select distinct case
+                  when p.fpalletcode is not null then
+                   p.fpalletcode
+                  else
+                   p.fchestnum
+                end FPALLETCODE,p.FCHESTNUM,d.line,a.fcode skuId, i.cargo_area  ,d.FQTY operateNumber,a.fprice*d.fqty totalprice, i.operate_piece,
+  to_date(d.flot,'yyyy-mm-dd') PRODUCTIONDATE,d.itemno
+   from  TPICKUPDTLDTL d 
+   left join TPICKUPDTL p on p.line=d.line
+   left join tarticle a on p.farticle=a.fgid
+   left join wms_taobao_outinsales o on p.falcntc=o.wms_num
+   left  join wms_taobao_outinsalesitems i   on i.bill_no=o.bill_no
+   
+   where   d.num=p.num and
+   p.falcntc=#outerBillNo# and
+    i.wms_num=p.falcntc and
+   i.bill_no =#billNo#  and i.wms_num=#outerBillNo#
+   and  o.bill_type=#targetAppKey# and
+		o.status=0 and o.flag=#topMixParams#
+		and o.wms_num=#outerBillNo#
+		
+   </select>
+   
+   
+	<!-- TB  bill_type  供应商退货回执 -->
+	<select id="selectWMSVendorRtnReceipt" resultMap="wdkChainBillNoticeResult">
+		select *	from (
+select distinct i.bill_no, i.bill_type,i.erp_from,i.remark reason,i.store_id,i.suppliers_no,i.wms_num outer_bill_no,req.FLSTUPDTIME  bill_date from   WMS_TAOBAO_OUTINSALES i
+left join TVENDORRTN n on i.wms_num= n.frtnreqnum
+left join TVENDORRTNREQ req on req.num=n.frtnreqnum
+ where  i.bill_type=2 and
+		 i.flag=1 and i.STATUS=0 and  n.stat=100 and req.stat=6500 and req.flstupdtime>sysdate-7  ORDER BY i.WMS_NUM
+		)
+		 WHERE rownum <![CDATA[<=]]> 15
+	</select>
+	
+	 <select id="selectWMSVendorRtnDetail" resultMap="outStockDetailBoResult" parameterClass="WdkChainBillNotice">
+	     select distinct d.line,
+                d.FREALQTY operateNumber,
+                a.fcode skuId,
+                i.cargo_area,
+                a.fprice * d.frealqty totalprice,
+                i.operate_piece,
+                (NVL(d.fproducedate,
+                     to_date(to_char(sysdate - 2, 'yyyyMMdd'), 'yyyyMMdd'))) PRODUCTIONDATE
+  from TVENDORRTNDTL d
+  left join tarticle a on a.fgid = d.farticle
+  left join wms_taobao_outinsales o on o.wms_num = d.frtnreqnum
+  left join wms_taobao_outinsalesitems i on i.bill_no = o.bill_no
+  left join TVENDORRTN t on t.num = d.num
+ where d.frtnreqnum = #outerBillNo#
+   and o.bill_no = #billNo#
+   and o.bill_type = 2
+   and o.status = 0
+   and o.flag = 1
+   and t.stat = 100
+ ORDER BY d.frtnreqnum DESC
+	</select>
+	
+	<!-- 新增  TBOutStockBO-->
+	<insert id="insertTBOutStockBO" parameterClass="TBOutStockBO">
+		<![CDATA[
+		 insert into WMS_TAOBAO_OUTINSALES (ID,BILL_DATE,BILL_NO, BILL_TYPE,CHANNEL,REASON,ERP_FROM,SOURCES,STORE_ID,SUPPLIERS_NO,WMS_BILL_NO,STATUS,CREATE_TIME,UPDATE_TIME,WMS_NUM)
+		 values (SEQ_WMS_TAOBAO_BILL.nextval, #billDate#,#billNo#, #billType#,#channel#, #reason#,#from#,#sources#, #storeId#,#suppliersNo#,#wmsBillNo#,0,sysdate,sysdate,#wmsNum#)
+		]]>                                    
+	</insert>
+
+	<!-- 新增  TBOutStockDetailBo-->
+	<insert id="insertTBOutStockDetailBO" parameterClass="TBDomainOutStockDetailBO">
+		<![CDATA[
+		 insert into WMS_TAOBAO_OUTINSALESITEMS (ID,CARGO_AREA,CHECK_TYPE,DISCOUNT_PRICE,IN_CARGO_AREA,OPERATE_NUMBER,OPERATE_PIECE,OUT_CARGO_AREA,PRODUCT_DATE,SKU_ID,TOTAL_PRICE,CREATE_TIME,UPDATE_TIME,BILL_NO,WMS_NUM)
+		 values (SEQ_WMS_TAOBAO_BILL.nextval, #cargoArea#,#checkType#,#discountPrice#,#inCargoArea#,#operateNumber#,#operatePiece#,#outCargoArea#,#productDate#,#skuId#,#totalPrice#,sysdate,sysdate,#billNo#,#wmsNum#)
+		]]>
+	</insert>
+	<!-- 新增  TBOutAreaNumber-->
+	<insert id="insertTBOutAreaNumber" parameterClass="TBOutAreaNumber">
+		<![CDATA[
+		 insert into WMS_TAOBAO_OUTAREANUMBER (ID,BATCH_CODE,OPERATE_NUMBER,PRODUCTION_DATE,CREATE_TIME,SKU_ID,BILL_NO)
+		 values (SEQ_WMS_TAOBAO_BILL.nextval,#batchCode#,#operateNumber#,#productionDate#,SYSDATE,#skuId#,#billNo#)
+		]]>
+	</insert>
+	
+	
+	<!-- TB  bill_type   溢余回执 -->
+	<select id="selectWMSTINCINV" resultMap="wdkChainBillNoticeResultTINCINV">
+		select *	from (
+SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
+  from TINCINV t
+  left join tincinvdtl td on td.num = t.num
+ where t.stat = 100
+   and substr(td.fpsn, 1, 2) not in (98)
+   and t.num not in
+       (select LRETURNBILL.fnum from LRETURNBILL where LRETURNBILL.ftype = 'PY')
+   and t.FLSTUPDTIME > sysdate - 20
+ ORDER BY t.num desc
+		)
+		 WHERE rownum <![CDATA[<=]]> 2000	
+	</select>
+
+	 <select id="selectWMSTINCINVDetail" resultMap="outStockDetailBoResultTINCINV" parameterClass="WdkChainBillNotice">
+     select distinct 
+     d.line,
+        d.fmemo REASON,
+        d.fqty operateNumber,
+        a.fcode skuId,
+        d.fpsn cargo_area,
+        a.fprice * d.fqty totalprice,
+        d.FPRODUCEDATE PRODUCTIONDATE
+   from TINCINVdtl d
+  left join tarticle a on d.farticle=a.fgid
+   
+   where d.fqty>0 and d.num=#outerBillNo#
+	</select>
+	
+	
+	<!-- TB  bill_type   损耗回执 -->
+	<select id="selectWMSTDECINV" resultMap="wdkChainBillNoticeResultTINCINV">
+ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
+  from TDECINV t, TDECINVDTL d
+ where t.stat = 100
+   and t.num not in
+       (select LRETURNBILL.fnum from LRETURNBILL where LRETURNBILL.ftype = 'PK')
+   and t.num not in
+       (select d.num from TDECINVDTL d where d.fpsn like '98%')
+   and t.flstupdtime > sysdate - 20
+ ORDER BY t.num	
+	</select>
+
+	 <select id="selectWMSTDECINVDetail" resultMap="outStockDetailBoResultTINCINV" parameterClass="WdkChainBillNotice">
+     select distinct 
+     d.line,
+     d.freason REASON,
+     d.fqty operateNumber,
+        a.fcode skuId,
+        d.fpsn cargo_area,
+        a.fprice * d.fqty totalprice,
+        d.FPRODUCEDATE PRODUCTIONDATE
+   from TDECINVDTL d
+  left join tarticle a on d.farticle=a.fgid
+   
+   where d.fqty>0 and d.num=#outerBillNo#
+	</select>
+	
+	<!-- TB  bill_type   移库单回执 -->
+	<select id="selectWMSTMOVEINV" resultMap="wdkChainBillNoticeResultTINCINV" parameterClass="ThreeStrings">
+    select *  from (
+ select distinct tm.num outer_bill_no, tm.flstupdtime bill_date
+  from tmoveinv tm
+  left join tmoveinvdtl tmd on tm.num = tmd.num
+ where ((tmd.ffrompsn like '11%' and tmd.fdestpsn like '93%') or
+       (tmd.ffrompsn like '11%' and tmd.fdestpsn like '94%') or
+       (tmd.ffrompsn like '93%' and tmd.fdestpsn like '94%') or
+       (tmd.ffrompsn like '93%' and tmd.fdestpsn like '11%') or
+       (tmd.ffrompsn like '94%' and tmd.fdestpsn like '11%') or
+       (tmd.ffrompsn like '94%' and tmd.fdestpsn like '93%'))
+   and tm.num not in
+       (select l.fnum
+          from LRETURNBILL l
+         where l.ftype = 1
+           and l.ftime >= to_date('20170713', 'yyyymmdd'))
+   and tm.flstupdtime >= to_date('20170713', 'yyyymmdd')
+   and tm.ftype <![CDATA[<]]><![CDATA[>]]> '门店退货'
+   and tm.stat = 100
+ order by tm.flstupdtime
+		)
+		 WHERE rownum <![CDATA[<=]]> 2000	
+	</select>
+
+	 <select id="selectWMSTMOVEINVDetail" resultMap="outStockDetailBoResultTMOVEINV" parameterClass="TBOutStockDetailBo">
+     select distinct 
+     d.line,
+     d.frealqty operateNumber,
+        a.fcode skuId,
+        d.ffrompsn out_cargo_area,
+        d.fdestpsn in_cargo_area,
+        a.fprice * d.frealqty totalprice,
+        d.FPRODUCEDATE PRODUCTIONDATE
+   from TMOVEINVDTL d
+  left join tarticle a on d.farticle=a.fgid
+   
+   where d.num=#wmsNum#
+   and substr(d.ffrompsn,0,2)=#outCargoArea# and substr(d.fdestpsn,0,2)=#inCargoArea#
+  
+	</select>
+	
+	
+	<!-- update  wms_taobao_bill_history   -->
+	<update id="updateBillHistory" parameterClass="TBBillHistory">
+		update wms_taobao_bill_history set WMS_NUM=#wmsNum#,UPDATE_TIME=SYSDATE  where type=#type#
+	
+	</update>
+	
+	<!-- TB  bill_type6 0   门店货退单回执   1 5 配货出库差异 门店货退 -->
+	<select id="selectWMSStoreRtnntcReceipt" resultMap="wdkChainBillNoticeResult" parameterClass="OutInSalesBo">
+		select *	from (
+		 select distinct i.bill_no, i.bill_type,i.erp_from,i.remark reason,i.store_id,i.suppliers_no,i.wms_num outer_bill_no,o.FLSTUPDTIME  bill_date from   WMS_TAOBAO_OUTINSALES i
+               left join TSTORERTNNTC o on i.WMS_NUM=o.NUM 
+              
+               WHERE
+       i.bill_type=#queryType# and
+	    i.flag=#flag# and
+     	i.status=0 and
+     	o.stat=7000 and
+		i.WMS_NUM=o.NUM and
+		i.bill_no=o.FSRCNUM and
+         o.FLSTUPDTIME>sysdate-10
+
+		ORDER BY i.WMS_NUM
+		)
+		 WHERE rownum <![CDATA[<=]]> 5
+	</select>
+	
+	 <select id="selectWMSStoreRtnntcDetail" resultMap="outStockDetailBoResult" parameterClass="WdkChainBillNotice">
+select distinct  
+       s.line,
+      s.frealqty operateNumber,
+        a.fcode skuId,
+        i.cargo_area,
+        i.operate_piece,
+        s.FPRODUCEDATE PRODUCTIONDATE,
+        a.fprice * s.frealqty totalprice
+   from TSTORERTNDTL s
+  left join tarticle a on s.farticle=a.fgid
+   
+   left join wms_taobao_outinsales o on s.FRTNNTCNUM=o.wms_num
+   left  join wms_taobao_outinsalesitems i   on i.bill_no=o.bill_no
+   where   o.bill_type=#targetAppKey# and
+		o.status=0 and o.flag=#topMixParams# and
+		
+         i.bill_no =#billNo# and s.FRTNNTCNUM=#outerBillNo# and i.wms_num=#outerBillNo#
+	</select>
+	
+	<select id="selectWMSStoreRtnntcDetail_batch" resultMap="outStockDetailBoResult" parameterClass="WdkChainBillNotice">
+select distinct i.id,
+                i.OPERATE_NUMBER operateNumber,
+                i.SKU_ID skuId,
+                i.cargo_area,
+                i.operate_piece,
+                i.PRODUCT_DATE PRODUCTIONDATE,
+                i.TOTAL_PRICE totalprice
+  from wms_taobao_outinsalesitems i
+ where i.bill_no = #billNo#
+   and i.wms_num = #outerBillNo#
+	</select>
+	
+	<select id="selectWMSStoreRtnntcDetail_pallet" resultMap="outStockDetailBoResult" parameterClass="WdkChainBillNotice">
+select distinct s.line line,
+                s.frealqty anumber,
+                a.fcode sku,
+                i.cargo_area area,
+                i.operate_piece piece,
+                (NVL(s.fproducedate,
+                     to_date(to_char(sysdate - 2, 'yyyyMMdd'), 'yyyyMMdd'))) adate,
+                a.fprice * s.frealqty totolprice
+  from TSTORERTNDTL s
+  left join tarticle a on s.farticle = a.fgid
+  left join wms_taobao_outinsales o on s.FRTNNTCNUM = o.wms_num
+  left join wms_taobao_outinsalesitems i on i.bill_no = o.bill_no
+ where a.fcode = #reason#
+   and i.bill_no = #billNo#
+   and s.FRTNNTCNUM = #outerBillNo#
+	</select>
+
+
+		<typeAlias alias="BillBack"	type="com.taobao.checkmodel.BillBack" />
+	<!-- 记录已回执成功单据 -->
+	<insert id="insertBillBack" parameterClass="BillBack">
+		<![CDATA[
+		 INSERT INTO LRETURNBILL (FNUM,FTIME,FTYPE,FSTATE) VALUES (#num#,SYSDATE,#type#,0)
+		]]>                                    
+	</insert>
+
+	<insert id="insertBillBack_HM" parameterClass="BillBack">
+		<![CDATA[
+		 INSERT INTO LRETURNBILL (FNUM,FTIME,FTYPE,FSTATE) VALUES (#num#,SYSDATE,#type#,0)
+		]]>                                    
+	</insert>
+
+	<update id="updateBillBack_ok" parameterClass="BillBack">
+		update LRETURNBILL l set l.fstate = 1 where l.fnum = #num# and l.type = #type#
+	</update>
+	
+	<update id="updateBillBack_HM_ok" parameterClass="BillBack">
+		update LRETURNBILL l set l.fstate = 1 where l.fnum = #num#
+	</update>
+
+
+
+
+
+
+
+    
+    <select id="Check_AllArticleFcodesAndNumber" resultMap="My_InventoryItemSub" parameterClass="My_Inventory">
+    	select *	from (select distinct ta.fcode itemCode,
+                (select sum(tbinarticles.fqty)
+                   from tbinarticles
+                   left join tarticle on tarticle.fgid =
+                                         tbinarticles.farticle
+                  where (tbinarticles.fbin like #managementCode# or
+                        tbinarticles.fbin like #managementCodee#)
+                    and tbinarticles.fowner = '100161'
+                    and tarticle.fcode = ta.fcode) as itemCount
+  from tbinarticles tba
+  left join tarticle ta on ta.fgid = tba.farticle
+ where (tba.fbin like #managementCode# or tba.fbin like #managementCodee#)
+   and tba.fowner = '100161'
+ order by ta.fcode)
+	
+    </select>
+    <!-- WHERE rownum <![CDATA[<=]]> 3 -->
+    <!--
+	
+	<select id="Check_AllArticleFcodes" resultMap="String" parameterClass="InventoryResult">
+	select distinct a.fcode AS CODE
+  from tbinarticles t
+  left join tarticle a on t.farticle = a.fgid
+ where t.fbin like #ManagementCode#
+   and a.fowner = '100161'
+ order by a.fcode;
+	</select>
+	
+	<select id="Check_AArticleNumber" resultMap="String" parameterClass="InventoryItem">
+	select sum(x.fqty) allnumber
+  from tbinarticles x
+  left join tarticle on tarticle.fgid = x.farticle
+ where x.fbin like  #itemCount#
+   and tarticle.fcode = #itemCode#
+   </select>
+   
+   -->
+	
+	
+	<!-- 查询某一商品 所有的明细   ： 数量、批号 、生产日期 -->
+	<select id="Check_AArticleDetails" resultMap="My_InventoryBatch" parameterClass="my_InventoryItemSub" >
+	select x.fqty batchCount, x.flot batchNo, x.fproducedate batchDate
+  from tbinarticles x
+  left join tarticle on tarticle.fgid = x.farticle
+ where x.fbin like  #itemCount#
+   and tarticle.fcode = #itemCode#
+	</select>
+	
+
+
+
+	
+		<!-- 采购入库单 '2017-04-25'-->
+	<select id="Check_Allcaigou" resultMap="My_LedgerItemSub" parameterClass="AllList_Parameters">
+		select count(t.num) recordCount , count(distinct i.id) totalCount
+  from LRETURNBILL l
+ left join wms_taobao_outinsales i on i.bill_no = l.fnum
+  left join torddtl t on t.num = i.wms_num
+ where l.ftype = 'RK'
+   and to_char(l.ftime, 'yyyy-mm-dd') = #date#
+	</select>
+	
+	<!-- 退供应商 17-4月 -17%-->
+	<select id="Check_Alltuigongyingshang" resultMap="My_LedgerItemSub" parameterClass="AllList_Parameters">
+	select count(t.num) recordCount , count(distinct L.NUM) totalCount
+  from LRETURNBILL l
+  left join tvendorrtnreq t1 on t1.fsrcnum = l.fnum
+  left join tvendorrtnreqdtl t on t.num = t1.num
+ where l.ftype = 'GT'
+ and to_char(l.ftime, 'yyyy-mm-dd') = #date#
+	</select>
+	
+	<!-- 门店退 17-4月 -17% -->
+	<select id="Check_Allmendiantui" resultMap="My_LedgerItemSub" parameterClass="AllList_Parameters">
+	 select count(t.num) recordCount , count(distinct i.id) totalCount
+  from  LRETURNBILL l
+  LEFT JOIN wms_taobao_outinsales i ON i.bill_no = l.fnum
+  left join tstorertndtl t on t.num = i.wms_num
+ where l.ftype = 'MT'
+ and to_char(l.ftime, 'yyyy-mm-dd') = #date#
+	</select>
+	
+	<!-- 配货出库 17-4月 -17%-->
+	<select id="Check_Allpeihuo" resultMap="My_LedgerItemSub" parameterClass="AllList_Parameters">
+	select count(tdd.itemno) recordCount, count(distinct i.id) totalCount
+  from LRETURNBILL l
+  LEFT join wms_taobao_outinsales i ON i.bill_no = l.fnum
+  LEFT join tpickupDTL tp on tP.Falcntc = I.WMS_NUM
+  LEFT JOIN TPICKUPDTLDTL TDD ON (TDD.NUM = TP.NUM and tdd.line = tp.line)
+ where l.ftype = 'CK'
+ and to_char(l.ftime, 'yyyy-mm-dd') = #date#
+	</select>
+	
+	<!-- 移库 -->
+	<select id="Check_Allyiku" resultMap="My_LedgerItemSub" parameterClass="AllList_Parameters">
+select  count(tmd.num) recordCount,count(distinct tm.num)  totalCount
+  from LRETURNBILL l
+  left join tmoveinv tm on l.fnum = tm.num
+  left join tmoveinvdtl tmd on tmd.num = tm.num
+ where l.ftype = 'YK' and to_char(l.ftime, 'yyyy-mm-dd') = #date#
+	</select>
+	
+	<!-- 库存调整 -->
+	<select id="Check_Allpanying" resultMap="My_LedgerItemSub" parameterClass="AllList_Parameters">
+select count(tid.num) recordCount, count(distinct ti.num) totalCount
+  from LRETURNBILL l
+  left join TINCINV ti on l.fnum = ti.num
+  left join tincinvdtl tid on tid.num = ti.num
+ where  l.ftype = 'PY'
+   and to_char(ti.fcreatetime, 'yyyy-mm-dd') = #date#
+	</select>
+	
+	<select id="Check_Allpankui" resultMap="My_LedgerItemSub" parameterClass="AllList_Parameters">
+ select count(tdd.num) recordCount , count(distinct td.num) totalCount
+  from LRETURNBILL l
+  left join TDECINV td on l.fnum = td.num
+  left join tdecinvdtl tdd on tdd.num = td.num
+ where l.ftype = 'PK'
+   and to_char(td.fcreatetime, 'yyyy-mm-dd') = #date#
+	</select>
+	
+	<!-- hfsdlkfjahsldkjfhalskjdhlaiuweyzmxbvakzjsdhfolaiwueyjqpiuweryjalkfhsdljvzbxmcnbvalkjsdhgapiouweyhkalkjsdlbakxbvcl -->
+	
+
+    
+    <select id="getallAliBill" resultMap="BackBill" parameterClass="BackBill">
+    	select num billnumber, time backtime, type type
+  			from LRETURNBILL l
+ 		where to_char(l.ftime, 'yyyy-mm-dd') = #backtime#
+   and l.fstate = 0
+    </select>
+    
+    <select id="getallOurBill" resultMap="BackBill" parameterClass="BackBill">
+    	select num billnumber, time backtime, type type
+  			from LRETURNBILL l
+ 		where to_char(l.ftime, 'yyyy-mm-dd') = #backtime#
+   and l.fstate = 0
+    </select>
+    
+    <select id="getGongyingshangTuihuodanDetail"   resultMap="BackModel" parameterClass="BackBill" >
+    	select distinct o.bill_no billnumber,
+                o.wms_num ournumber,
+                a.fcode sku,
+                d.FREALQTY goodsnumber,
+                to_date(d.flot, 'yyyy-mm-dd') productiondate,
+                to_char(to_date(d.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
+  			from TVENDORRTNDTL d
+  			left join tarticle a on a.fgid = d.farticle
+  			left join wms_taobao_outinsales o on o.wms_num = d.frtnreqnum
+  			left join wms_taobao_outinsalesitems i on i.bill_no = o.bill_no
+  			left join TVENDORRTN t on t.num = d.num
+ 		where o.bill_no = #billnumber#
+    </select>
+    
+    
+    <select id="getCaiGouRuKuDetail" resultMap="BackModel" parameterClass="BackBill">
+    		select distinct o.bill_no billnumber,
+                o.wms_num ournumber,
+                a.fcode sku,
+                s.fqty goodsnumber,
+                to_date(s.flot, 'yyyy-mm-dd') productiondate,
+                to_char(to_date(s.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
+  from TSTKINdtl s
+  left join tarticle a on s.farticle = a.fgid
+  left join wms_taobao_outinsales o on s.fordnum = o.wms_num
+  left join wms_taobao_outinsalesitems i on i.bill_no = o.bill_no
+ where o.bill_no = #billnumber#
+    </select>
+    
+	<!-- 配货出库单 -->
+    <select id="getChukuDetail" resultMap="BackModel" parameterClass="BackBill" >
+    	select o.bill_no billnumber,
+       o.wms_num ournumber,
+       a.fcode sku,
+       d.FQTY goodsnumber,
+       to_date(d.flot, 'yyyy-mm-dd') productiondate,
+       to_char(to_date(d.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
+  from TPICKUPDTLDTL d
+  left join TPICKUPDTL p on  (p.line = d.line and p.num = d.num)
+  left join tarticle a on p.farticle = a.fgid
+  left join wms_taobao_outinsales o on p.falcntc = o.wms_num
+ where
+   o.bill_no = #billnumber#
+   and o.wms_num = p.falcntc
+    </select>
+    
+    <select id="getMenDianDetail" resultMap="BackModel" parameterClass="BackBill" >
+    		select distinct o.bill_no billnumber,
+                o.wms_num ournumber,
+                a.fcode sku,
+                s.frealqty goodsnumber,
+				to_date(s.flot, 'yyyy-mm-dd') productiondate,
+                to_char(to_date(s.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
+  from TSTORERTNDTL s
+  left join tarticle a on s.farticle = a.fgid
+  left join wms_taobao_outinsales o on s.FRTNNTCNUM = o.wms_num
+  left join wms_taobao_outinsalesitems i on i.bill_no = o.bill_no
+ where o.bill_no = #billnumber#
+    </select>
+    
+    <select id="getPanyingdanDetail" resultMap="BackModel" parameterClass="BackBill">
+    	select '-' billnumber,
+                d.num ournumber,
+                a.fcode  sku,
+                d.fqty goodsnumber,
+				to_date(d.flot, 'yyyy-mm-dd') productiondate,
+                to_char(to_date(d.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
+  from TINCINVdtl d
+  left join tarticle a on d.farticle = a.fgid
+  where d.num = #billnumber#
+    </select>
+    
+    <select id="getPanKuidanDetail" resultMap="BackModel" parameterClass="BackBill">
+    select '-' billnumber,
+                d.num ournumber,
+                a.fcode sku,
+                d.fqty goodsnumber,
+                to_date(d.flot, 'yyyy-mm-dd') productiondate,
+                to_char(to_date(d.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
+  from TDECINVDTL d
+  left join tarticle a on d.farticle = a.fgid
+  where d.num = #billnumber#
+    
+    </select>
+    
+    <select id="getyiyudanDetail" resultMap="BackModel" parameterClass="BackBill">
+	select '-' billnumber,
+    	   d.num ournumber,
+       a.fcode sku,
+       d.frealqty goodsnumber,
+	   to_date(d.flot, 'yyyy-mm-dd') productiondate,
+       to_char(to_date(d.flot, 'yyyy-mm-dd'), 'yyyy-mm-dd') flot
+  from TMOVEINVDTL d
+  left join tarticle a on d.farticle = a.fgid
+ where d.num = #billnumber#
+    
+    </select>
+
+
+
+
+	
+
+
+    
+    <!--获取库存快照12点-->
+    <!--哪个货主的 哪个仓位的 哪个商品的 哪个批次的 货是多少。-->
+    <select id="get_StockSnapshpt"   resultMap="FiveStrings"  parameterClass="ThreeStrings">
+		select tba.fowner string1, tba.fbin string2, ta.fcode string3, tba.flot string4, tba.fqty string5
+            from tbinarticles tba
+        left join tarticle ta on ta.fgid = tba.farticle
+        where tba.fbin like #string1#
+            and tba.fowner = #string2#
+        order by ta.fcode
+    </select>
+
+    <!--存储库存快照-->
+    <insert id="insert_StockSnapshpt" parameterClass="FiveStrings">
+		<![CDATA[
+		 INSERT INTO LINVENTORYSNAPSHOT (FOWNER,FTYPE,FCODE,FLOT,FQTY) VALUES (#string1#,#string2#,#string3#,#string4#,#string5#)
+		]]>                                    
+	</insert>
+
+    <!--去读库存快照-->
+    <select id="read_StockSnapshpt" resultMap="FiveStrings"   parameterClass="ThreeStrings">
+				select s.FOWNER string1,
+					 s.FTYPE  string2,
+				     s.FCODE  string3,
+				     s.FLOT   string4,
+					 s.FQTY   string5
+				 from LINVENTORYSNAPSHOT s
+					 where s.FOWNER = #string2#
+					   and s.ftype like #string1#
+	</select>
+
+    <!--删除库存快照-->
+    <delete id="delete_StockSnapshpt"   parameterClass="ThreeStrings">
+        delete from  LINVENTORYSNAPSHOT s where s.FOWNER = #string2# and s.ftype like #string1#
+    </delete>
+	
+</sqlMap>
