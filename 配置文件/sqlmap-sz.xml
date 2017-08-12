@@ -162,9 +162,6 @@
     </resultMap>
 
 
-
-
-
 		<typeAlias alias="BackModel"	type="com.taobao.checkmodel.BackModel" />
 	<resultMap id="BackModel" class="BackModel">
         <result property="billnumber" column="BILLNUMBER"/>
@@ -537,7 +534,7 @@ select distinct i.id,
    and i.wms_num = #outerBillNo#
 	</select>
 	
-	<select id="selectWMSStoreRtnntcDetail_pallet" resultMap="outStockDetailBoResult" parameterClass="WdkChainBillNotice">
+	<select id="selectWMSStoreRtnntcDetail_pallet" resultMap="StoreReturnDetail" parameterClass="WdkChainBillNotice">
 select distinct s.line line,
                 s.frealqty anumber,
                 a.fcode sku,
@@ -600,29 +597,7 @@ select distinct s.line line,
  where (tba.fbin like #managementCode# or tba.fbin like #managementCodee#)
    and tba.fowner = '100161'
  order by ta.fcode)
-	
     </select>
-    <!-- WHERE rownum <![CDATA[<=]]> 3 -->
-    <!--
-	
-	<select id="Check_AllArticleFcodes" resultMap="String" parameterClass="InventoryResult">
-	select distinct a.fcode AS CODE
-  from tbinarticles t
-  left join tarticle a on t.farticle = a.fgid
- where t.fbin like #ManagementCode#
-   and a.fowner = '100161'
- order by a.fcode;
-	</select>
-	
-	<select id="Check_AArticleNumber" resultMap="String" parameterClass="InventoryItem">
-	select sum(x.fqty) allnumber
-  from tbinarticles x
-  left join tarticle on tarticle.fgid = x.farticle
- where x.fbin like  #itemCount#
-   and tarticle.fcode = #itemCode#
-   </select>
-   
-   -->
 	
 	
 	<!-- 查询某一商品 所有的明细   ： 数量、批号 、生产日期 -->
