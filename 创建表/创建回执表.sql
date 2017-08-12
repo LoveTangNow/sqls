@@ -2,11 +2,11 @@
 -- Create table
 create table LRETURNBILL
 (
-  FNUM    VARCHAR2(30) not null,  --单号
-  FTIME   DATE default SYSDATE,   --回执时间
-  FTYPE   VARCHAR2(5),            --单据种类：CK,RK,GT,MT,PY,PK,YK
-  FSTATE VARCHAR2(2) default 0,   --状态：0初始状态，1已经对账
-  FMESSAGE VARCHAR2(200)          --描述
+  FNUM     VARCHAR2(30) not null,
+  FTIME    DATE default SYSDATE,
+  FTYPE    VARCHAR2(5) not null,
+  FSTATE   VARCHAR2(2) default 0,
+  FMESSAGE VARCHAR2(200)
 )
 tablespace HDAPP
   pctfree 10
@@ -32,3 +32,17 @@ comment on column LRETURNBILL.FSTATE
   is '状态：0初始状态，1已经对账';
 comment on column LRETURNBILL.FMESSAGE
   is '描述';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table LRETURNBILL
+  add constraint PRIMARYKEY primary key (FNUM, FTYPE)
+  using index 
+  tablespace HDAPP
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
