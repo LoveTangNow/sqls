@@ -11,7 +11,7 @@ select sum(tpd.fqtystr) --tpd.num, tpd.line, tpd.fqtystr, tp.flstupdtime
  order by tpd.num, tpd.line;
 
 
---统计本月内 每个员工总计拣货箱数。
+--统计本月内 每个员工总计拣货箱数。上海
 select sum(tpd.fqtystr) num,
        tpd.fpicker,
        (select employee.name from employee where employee.gid = tpd.fpicker) fname
@@ -24,6 +24,22 @@ select sum(tpd.fqtystr) num,
    and tpd.fpicker || '-' <> '-'
    and to_char(tp.flstupdtime, 'yyyyMMdd') like '201707%'
  group by tpd.fpicker;
+
+--统计本月内 每个员工总计拣货箱数。北京
+select *
+  from (select sum(tpd.fqtystr) num,
+               tpd.fpicker,
+               (select employee.name from employee where employee.gid = tpd.fpicker) fname
+          from tpickupdtl tpd
+          left join tpickup tp on tp.num = tpd.num
+         where tpd.fowner = '100161'
+           and tp.stat <> 5210
+           and tpd.fqtystr not like '%+%'
+           and tpd.fpicker <> 0
+           and tpd.fpicker || '-' <> '-'
+           and to_char(tp.flstupdtime, 'yyyyMMdd') like '201708%'
+         group by tpd.fpicker)
+ order by num desc;
 
 select tpd.num,
        tpd.fqtystr,
