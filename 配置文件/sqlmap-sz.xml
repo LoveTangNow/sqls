@@ -435,26 +435,48 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
 	<!-- TB  bill_type   移库单回执 -->
 	<select id="selectWMSTMOVEINV" resultMap="wdkChainBillNoticeResultTINCINV" parameterClass="ThreeStrings">
     select *  from (
- select distinct tm.num outer_bill_no, tm.flstupdtime bill_date
+select distinct tm.num outer_bill_no, tm.flstupdtime bill_date
   from tmoveinv tm
   left join tmoveinvdtl tmd on tm.num = tmd.num
- where ((tmd.ffrompsn like '11%' and tmd.fdestpsn like '93%') or
-       (tmd.ffrompsn like '11%' and tmd.fdestpsn like '94%') or
-       (tmd.ffrompsn like '93%' and tmd.fdestpsn like '94%') or
-       (tmd.ffrompsn like '93%' and tmd.fdestpsn like '11%') or
-       (tmd.ffrompsn like '94%' and tmd.fdestpsn like '11%') or
-       (tmd.ffrompsn like '94%' and tmd.fdestpsn like '93%'))
+ where ((tmd.ffrompsn like '1%' and tmd.fdestpsn like '95%') or
+       (tmd.ffrompsn like '1%' and tmd.fdestpsn like '96%') or
+       (tmd.ffrompsn like '95%' and tmd.fdestpsn like '96%') or
+       (tmd.ffrompsn like '95%' and tmd.fdestpsn like '1%') or
+       (tmd.ffrompsn like '95%' and tmd.fdestpsn like '1%') or
+       (tmd.ffrompsn like '96%' and tmd.fdestpsn like '95%'))
    and tm.num not in
        (select l.fnum
           from LRETURNBILL l
-         where l.ftype = 1
-           and l.ftime >= to_date('20170713', 'yyyymmdd'))
-   and tm.flstupdtime >= to_date('20170713', 'yyyymmdd')
+         where l.ftype = 'YK'
+           and l.ftime >= sysdate - 7)
+   and tm.flstupdtime >=  sysdate - 7
    and tm.ftype <![CDATA[<]]><![CDATA[>]]> '门店退货'
    and tm.stat = 100
- order by tm.flstupdtime
-		)
-		 WHERE rownum <![CDATA[<=]]> 2000	
+ order by tm.flstupdtime)
+		 WHERE rownum <![CDATA[<=]]> 10
+	</select>
+
+    <select id="selectWMSTMOVEINVNew" resultMap="wdkChainBillNoticeResultTINCINV">
+    select *  from (
+select distinct tm.num outer_bill_no, tm.flstupdtime bill_date
+  from tmoveinv tm
+  left join tmoveinvdtl tmd on tm.num = tmd.num
+ where ((tmd.ffrompsn like '1%' and tmd.fdestpsn like '95%') or
+       (tmd.ffrompsn like '1%' and tmd.fdestpsn like '96%') or
+       (tmd.ffrompsn like '95%' and tmd.fdestpsn like '96%') or
+       (tmd.ffrompsn like '95%' and tmd.fdestpsn like '1%') or
+       (tmd.ffrompsn like '95%' and tmd.fdestpsn like '1%') or
+       (tmd.ffrompsn like '96%' and tmd.fdestpsn like '95%'))
+   and tm.num not in
+       (select l.fnum
+          from LRETURNBILL l
+         where l.ftype = 'YK'
+           and l.ftime >= sysdate - 7)
+   and tm.flstupdtime >=  sysdate - 7
+   and tm.ftype <![CDATA[<]]><![CDATA[>]]> '门店退货'
+   and tm.stat = 100
+ order by tm.flstupdtime)
+		 WHERE rownum <![CDATA[<=]]> 10
 	</select>
 
 	 <select id="selectWMSTMOVEINVDetail" resultMap="outStockDetailBoResultTMOVEINV" parameterClass="TBOutStockDetailBo">
@@ -468,10 +490,23 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
         d.FPRODUCEDATE PRODUCTIONDATE
    from TMOVEINVDTL d
   left join tarticle a on d.farticle=a.fgid
-   
    where d.num=#wmsNum#
    and substr(d.ffrompsn,0,2)=#outCargoArea# and substr(d.fdestpsn,0,2)=#inCargoArea#
-  
+	</select>
+
+    <select id="selectWMSTMOVEINVDetailNew" resultMap="outStockDetailBoResultTMOVEINV" parameterClass="java.lang.String">
+     select distinct d.line,
+                d.frealqty operateNumber,
+                a.fcode skuId,
+                d.ffrompsn out_cargo_area,
+                d.fdestpsn in_cargo_area,
+                a.fprice * d.frealqty totalprice,
+                d.FPRODUCEDATE PRODUCTIONDATE
+  from TMOVEINVDTL d
+  left join tarticle a on d.farticle = a.fgid
+ where d.num = #wmsNum#
+   and d.frealqty > 0
+ order by d.line
 	</select>
 	
 	

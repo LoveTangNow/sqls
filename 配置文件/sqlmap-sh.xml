@@ -314,7 +314,7 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
 	</select>
 	
 	<!-- TB  bill_type   移库单回执 -->
-	<select id="selectWMSTMOVEINV" resultMap="wdkChainBillNoticeResultTINCINV" parameterClass="java.lang.String">
+	<select id="selectWMSTMOVEINV" resultMap="wdkChainBillNoticeResultTINCINV" parameterClass="ThreeStrings">
     select *  from (
  select distinct tm.num  outer_bill_no, tm.flstupdtime  bill_date
   from tmoveinv tm
@@ -347,12 +347,11 @@ SELECT distinct t.num outer_bill_no, t.flstupdtime bill_date
         d.FPRODUCEDATE PRODUCTIONDATE
    from TMOVEINVDTL d
   left join tarticle a on d.farticle=a.fgid
-   
    where d.num=#wmsNum#
    and substr(d.ffrompsn,0,2)=#outCargoArea# and substr(d.fdestpsn,0,2)=#inCargoArea#
   
 	</select>
-	
+
 	
 	<!-- update  wms_taobao_bill_history   -->
 	<update id="updateBillHistory" parameterClass="TBBillHistory">
