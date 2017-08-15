@@ -3,7 +3,15 @@ package com.jano;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
-enum codetype {
+/**
+  * @Copyright: Copyright (c) 2014
+  * @Company:sj
+  * @author: wangkb,Thomas Liu
+  * @version: 1.0
+  * @time: 2014-10-5
+  */
+
+enum Codetype {
 	GB2312, UTF8, GBK
 }
 
@@ -16,7 +24,7 @@ public class FileUtil {
 	 * @return  1、成功	0失败
 	 */
 	public int saveFile(String path, String filname, StringBuffer buf) {
-		return saveFile(path, filname, buf, codetype.UTF8, true);
+		return saveFile(path, filname, buf, Codetype.UTF8, true);
 	}
 
 	/**
@@ -27,7 +35,7 @@ public class FileUtil {
 	 * @param codetype	编码格式
 	 * @return  1、成功	0失败
 	 */
-	public int saveFile(String path, String filname, StringBuffer buf, codetype codetype) {
+	public int saveFile(String path, String filname, StringBuffer buf, Codetype codetype) {
 		return saveFile(path, filname, buf, codetype, true);
 	}
 
@@ -40,13 +48,12 @@ public class FileUtil {
 	 * @param append	是否追加
 	 * @return  1、成功	0失败
 	 */
-	public int saveFile(String path, String filname, StringBuffer buf, codetype codetype, boolean append) {
+	public int saveFile(String path, String filname, StringBuffer buf, Codetype codetype, boolean append) {
 		int waka = 0;
 		FileOutputStream fout = null;
 		OutputStreamWriter writer = null;
 		try {
 			fout = new FileOutputStream(path + "/" + filname, append);
-
 			switch (codetype) {
 			case GB2312:
 				writer = new OutputStreamWriter(fout, "gb2312");
@@ -74,7 +81,6 @@ public class FileUtil {
 			} catch (Exception e) {
 			}
 		}
-
 		return waka;
 	}
 
