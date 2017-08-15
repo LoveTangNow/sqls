@@ -1,6 +1,6 @@
 -- 创建商家的回执表
 -- Create table
-create table LRETURNBILL
+create table LRETURNBILLO
 (
   FNUM     VARCHAR2(30) not null, -- 单号
   FTIME    DATE default SYSDATE,  -- 时间
@@ -19,21 +19,21 @@ tablespace HDAPP
     maxextents unlimited
   );
 -- Add comments to the table 
-comment on table LRETURNBILL
+comment on table LRETURNBILLO
   is '回执表';
 -- Add comments to the columns 
-comment on column LRETURNBILL.FNUM
+comment on column LRETURNBILLO.FNUM
   is '单号';
-comment on column LRETURNBILL.FTIME
+comment on column LRETURNBILLO.FTIME
   is '回执时间';
-comment on column LRETURNBILL.FTYPE
+comment on column LRETURNBILLO.FTYPE
   is '单据种类：CK,RK,GT,MT,PY,PK,YK';
-comment on column LRETURNBILL.FSTATE
+comment on column LRETURNBILLO.FSTATE
   is '状态：0初始状态，1已经对账';
-comment on column LRETURNBILL.FMESSAGE
+comment on column LRETURNBILLO.FMESSAGE
   is '描述';
 -- Create/Recreate primary, unique and foreign key constraints 
-alter table LRETURNBILL
+alter table LRETURNBILLO
   add constraint PRIMARYKEY primary key (FNUM, FTYPE)
   using index 
   tablespace HDAPP
