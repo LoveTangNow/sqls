@@ -1,11 +1,14 @@
 -- Create table
 create table LTRANSACTIONLOGS
 (
-  FID      VARCHAR2(10) not null,
-  FTIME    DATE default sysdate,
-  FSTATE   VARCHAR2(4),
-  FMESSAGE VARCHAR2(200),
-  FBILL    VARCHAR2(100)
+  FID       VARCHAR2(10) not null, -- 序号
+  FTIME     DATE default sysdate,  -- 时间
+  FBILL     VARCHAR2(100),         -- 单据号
+  FSTATE    VARCHAR2(7),           -- 单据状态（操作之后的状态）     
+  FMESSAGE  VARCHAR2(200),         -- 信息
+  FDEVICEID VARCHAR2(20),          -- 设备号（数字）
+  FDEVICE   VARCHAR2(20),          -- 设备名
+  FOPER     VARCHAR2(20)           -- 操作人员（工号）
 )
 tablespace HDAPP
   pctfree 10
