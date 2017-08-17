@@ -1,6 +1,6 @@
 ## RF更新日志：2017年-8-17日
 ### 版本号：1.3.2  
-[![Build Status]()](https://github.com/LoveTangNow/sqls/blob/master/%E5%9B%BE%E7%89%87/emergent.png)  
+![紧急](photos/emergent.png)
 > 上海上嘉_2017-08-17-14-00.apk
     
 - 修正上架界面alert不消失的问题。
