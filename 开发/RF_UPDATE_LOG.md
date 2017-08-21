@@ -5,7 +5,7 @@ author:Thomas Liu
 ### 版本号：1.3.2  
 > 上海上嘉_2017-08-22-06-41.apk
 
-![紧急](photos/function.png)
+![功能](photos/function.png)   ![修复](photos/repair.png)
     
 - 加入鼎纵物流选项。
 - 修正拣货时，锁定托盘会出现的乱码问题。
@@ -28,7 +28,7 @@ author:Thomas Liu
 ### 版本号：1.3.2
 > 上海上嘉_2017-08-16-14-08.apk
 
-![紧急](photos/function.png)   ![紧急](photos/repair.png)
+![功能](photos/function.png)   ![修复](photos/repair.png)
     
 - 拣货单号 **`仅可以扫描录入`**，不能手动输入。
 - 其他稳定性更新。
